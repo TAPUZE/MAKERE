@@ -226,19 +226,18 @@ export default function App() {
     console.log(JSON.stringify(payload, null, 2));
     showNotification(`Data successfully sent to ${webhookName} system.`);
   };
-
   return (
-    <div className="bg-slate-100 min-h-screen font-sans flex flex-col items-center p-4 sm:p-6 md:p-8" dir="ltr">
+    <div className="app-container" dir="ltr">
         {notification.show && <Notification message={notification.message} type={notification.type} onClose={() => setNotification({ show: false, message: '', type: '' })} />}
-        <div className="w-full max-w-5xl mx-auto bg-white rounded-2xl shadow-2xl overflow-hidden">
+        <div className="main-content">
             <Header userRole={userRole} setUserRole={setUserRole} isManagerView={isManagerView} setIsManagerView={setIsManagerView} />
             
-            <main className="p-6 sm:p-8 md:p-10">
+            <main className="content">
                 {!initialOrderLoaded && (
-                    <div className="text-center p-10">
-                        <h2 className="text-2xl font-semibold text-slate-700 mb-4">Welcome</h2>
-                        <p className="text-slate-500 mb-6">Click the button to simulate receiving a new order from the Make.com system</p>
-                        <button onClick={loadInitialOrderFromMake} className="bg-purple-600 text-white font-bold py-3 px-8 rounded-lg hover:bg-purple-700 transition-all duration-300 flex items-center gap-2 mx-auto text-lg shadow-lg hover:shadow-purple-500/50">
+                    <div style={{ textAlign: 'center', padding: '40px' }}>
+                        <h2 style={{ fontSize: '2rem', fontWeight: '600', color: '#475569', marginBottom: '16px' }}>Welcome</h2>
+                        <p style={{ color: '#64748b', marginBottom: '24px' }}>Click the button to simulate receiving a new order from the Make.com system</p>
+                        <button onClick={loadInitialOrderFromMake} className="btn btn-lg" style={{ margin: '0 auto', display: 'inline-flex' }}>
                            <ExternalLink size={20}/> Load Order from Make.com
                         </button>
                     </div>
@@ -265,7 +264,7 @@ export default function App() {
                 {currentStep === 'receipt' && <ReceiptView quote={quote} orderData={orderData} onSendToMake={handleSendToMake} />}
             </main>
         </div>
-        <footer className="text-center text-slate-500 mt-8 text-sm">
+        <footer style={{ textAlign: 'center', color: '#64748b', marginTop: '32px', fontSize: '0.9rem' }}>
             <p>&copy; 2025 Production Management System. Developed by Gemini.</p>
         </footer>
     </div>
@@ -276,18 +275,27 @@ export default function App() {
 
 function Header({ userRole, setUserRole, isManagerView, setIsManagerView }) {
     return (
-        <header className="bg-slate-800 text-white p-5 flex flex-col sm:flex-row justify-between items-center border-b-4 border-cyan-400">
-            <div className="flex items-center gap-3 mb-4 sm:mb-0">
-                <ShoppingCart className="w-8 h-8 text-cyan-400" />
-                <h1 className="text-2xl font-bold">Production Management System</h1>
+        <header className="header" style={{ position: 'relative' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '16px' }}>
+                <ShoppingCart style={{ width: '32px', height: '32px', color: '#60a5fa' }} />
+                <h1>MAKERE - Production Management</h1>
             </div>
-            <div className="flex items-center gap-4">
-                <span className="text-sm text-slate-400">View Mode:</span>
-                 <div className="flex items-center bg-slate-700 rounded-full p-1">
-                    <button onClick={() => { setUserRole('client'); setIsManagerView(false); }} className={`px-3 py-1 text-sm rounded-full flex items-center gap-1 ${!isManagerView ? 'bg-cyan-500' : ''}`}>
+            <p>Event Equipment Calculator & Quote Generator</p>
+            <div className="role-toggle">
+                <span style={{ fontSize: '0.9rem', opacity: '0.9' }}>View Mode:</span>
+                 <div style={{ display: 'flex', alignItems: 'center', background: 'rgba(255,255,255,0.2)', borderRadius: '20px', padding: '4px' }}>
+                    <button 
+                        onClick={() => { setUserRole('client'); setIsManagerView(false); }} 
+                        className={`btn btn-sm ${!isManagerView ? 'btn-success' : 'btn-outline'}`}
+                        style={{ margin: '0 4px', borderRadius: '16px' }}
+                    >
                         <User size={16} /> Client
                     </button>
-                    <button onClick={() => { setUserRole('manager'); setIsManagerView(true); }} className={`px-3 py-1 text-sm rounded-full flex items-center gap-1 ${isManagerView ? 'bg-amber-500' : ''}`}>
+                    <button 
+                        onClick={() => { setUserRole('manager'); setIsManagerView(true); }} 
+                        className={`btn btn-sm ${isManagerView ? 'btn-success' : 'btn-outline'}`}
+                        style={{ margin: '0 4px', borderRadius: '16px' }}
+                    >
                         <Key size={16} /> Manager
                     </button>
                 </div>
